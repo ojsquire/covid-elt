@@ -1,0 +1,34 @@
+version: 1
+send_anonymous_usage_stats: true
+project_id: afad59b3-1c3b-4b11-afe0-9e95222901c4
+plugins:
+  extractors:
+  - name: tap-covid-19
+    namespace: tap_covid_19
+    pip_url: tap-covid-19
+    executable: tap-covid-19
+    capabilities:
+    - catalog
+    - discover
+    - state
+    settings:
+    - name: api_token
+    - name: user_agent
+    - name: start_date
+    config:
+      user_agent: ojsquire@gmail.com
+      start_date: '2021-04-01T00:00:00Z'
+    select:
+    - eu_daily.*
+    metadata:
+      eu_daily:
+        replication-method: INCREMENTAL
+        replication-key: __sdc_row_number
+  loaders:
+  - name: target-postgres
+    variant: datamill-co
+    pip_url: singer-target-postgres
+    config:
+      postgres_username: admin
+      postgres_database: dev
+      postgres_schema: covid
