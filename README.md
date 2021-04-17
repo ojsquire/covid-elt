@@ -3,14 +3,20 @@ COVID-19 data via singer tap with Meltano, DBT and airflow.
 
 ## Meltano set-up
 Get meltano:
-`docker pull meltano/meltano:latest`
+```shell
+docker pull meltano/meltano:latest
+```
 
 Init:
-`docker run -v $(pwd):/meltano -w /meltano meltano/meltano init meltano`
-`cd meltano`
+```shell
+docker run -v $(pwd):/meltano -w /meltano meltano/meltano init meltano
+cd meltano
+```
 
-Check what taps are available.
-`docker run -v $(pwd):/meltano -w /meltano meltano/meltano discover extractors`
+Check what taps are available
+```shell
+docker run -v $(pwd):/meltano -w /meltano meltano/meltano discover extractors
+```
 
 If your one is not availbale then runL
 `docker run --interactive -v $(pwd):/meltano -w /meltano meltano/meltano add --custom extractor tap-covid-19`
@@ -47,6 +53,7 @@ We are using a postgres db so:
 `docker run -v $(pwd):/meltano -w /meltano meltano/meltano add loader target-postgres`
 
 Set db settings:
+`docker run -v $(pwd):/meltano -w /meltano meltano/meltano config target-postgres set postgres_host localhost`
 `docker run -v $(pwd):/meltano -w /meltano meltano/meltano config target-postgres set postgres_port 5432`
 `docker run -v $(pwd):/meltano -w /meltano meltano/meltano config target-postgres set postgres_username admin`
 `docker run -v $(pwd):/meltano -w /meltano meltano/meltano config target-postgres set postgres_password meltano`
@@ -55,3 +62,9 @@ Set db settings:
 
 Check everything is the way it should look:
 `docker run -v $(pwd):/meltano -w /meltano meltano/meltano config target-postgres`
+
+## Set up a postgres database
+
+
+## Run the pipeline
+`docker run -v $(pwd):/meltano -w /meltano meltano/meltano elt tap-covid-19 target-postgres --job_id=covid-19-eu-daily`
