@@ -29,6 +29,6 @@ plugins:
     variant: datamill-co
     pip_url: singer-target-postgres
     config:
-      postgres_username: admin
+      postgres_username: postgres
       postgres_database: dev
       postgres_schema: covid
